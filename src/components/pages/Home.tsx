@@ -8,14 +8,14 @@ import { MenuItem, TextField } from "@mui/material";
 
 function Home() {
   const [user, setUser] = useState<User | null>(null);
-  const [, setCookie] = useCookies(["Authorization"]);
+  //const [, setCookie] = useCookies(["Authorization"]);
   const [tags, setTags] = useState<string[]>([]);
 
   // LOAD THE EMAIL OF THE LOGGED IN USER
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        setCookie("Authorization", user, { path: "/" });
+        //setCookie("Authorization", user, { path: "/" });
         const response = await fetch(
           "https://go-render-backend.onrender.com/validate",
           {
@@ -65,23 +65,30 @@ function Home() {
   return (
     <CookiesProvider>
       <div>
-        {user ? (
+        {!user ? (
           <>
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Select"
-              defaultValue="EUR"
-              helperText="Please select your currency"
-            >
-              {tags?.map((tag: string) => (
-                <MenuItem key={tag} value={tag}>
-                  {tag}
-                </MenuItem>
-              ))}
-            </TextField>
+            <div className="m-2">
+              <TextField
+                id="outlined-select-tag"
+                select
+                label="Select"
+                helperText="Tags list"
+              >
+                {tags?.map((tag: string) => (
+                  <Link
+                    to={`/post/tag/${tag}`}
+                    key={tag}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <MenuItem key={tag} value={tag}>
+                      {tag}
+                    </MenuItem>
+                  </Link>
+                ))}
+              </TextField>
+            </div>
             <Posts />
-            <p>Welcome {user ? "user.Email" : "Guest"}</p>
+            <p>Welcome {user ? user : "Guest"}</p>
             <Logout />
           </>
         ) : (
