@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { CookiesProvider, useCookies } from "react-cookie";
 import Logout from "../Logout";
 import Posts from "../PostCRUD/Posts";
 import { User } from "../../interfaces/User";
@@ -63,52 +62,50 @@ function Home() {
   //const isCookiePresent = !!cookies.Authorization;
 
   return (
-    <CookiesProvider>
-      <div>
-        {!user ? (
-          <>
-            <div className="m-2">
-              <TextField
-                id="outlined-select-tag"
-                select
-                label="Select"
-                helperText="Tags list"
-              >
-                {tags?.map((tag: string) => (
-                  <Link
-                    to={`/post/tag/${tag}`}
-                    key={tag}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <MenuItem key={tag} value={tag}>
-                      {tag}
-                    </MenuItem>
-                  </Link>
-                ))}
-              </TextField>
-            </div>
-            <Posts />
-            <p>Welcome {user ? user : "Guest"}</p>
-            <Logout />
-          </>
-        ) : (
-          <div className="flex flex-row justify-center space-x-4">
-            <Link
-              to="/signup"
-              className="text-blue-500 hover:text-blue-700 transition duration-300"
+    <div>
+      {!user ? (
+        <>
+          <div className="m-2">
+            <TextField
+              id="outlined-select-tag"
+              select
+              label="Select"
+              helperText="Tags list"
             >
-              Sign Up
-            </Link>
-            <Link
-              to="/login"
-              className="text-green-500 hover:text-green-700 transition duration-300"
-            >
-              Login
-            </Link>
+              {tags?.map((tag: string) => (
+                <Link
+                  to={`/post/tag/${tag}`}
+                  key={tag}
+                  style={{ textDecoration: "none" }}
+                >
+                  <MenuItem key={tag} value={tag}>
+                    {tag}
+                  </MenuItem>
+                </Link>
+              ))}
+            </TextField>
           </div>
-        )}
-      </div>
-    </CookiesProvider>
+          <Posts />
+          <p>Welcome {user ? user : "Guest"}</p>
+          <Logout />
+        </>
+      ) : (
+        <div className="flex flex-row justify-center space-x-4">
+          <Link
+            to="/signup"
+            className="text-blue-500 hover:text-blue-700 transition duration-300"
+          >
+            Sign Up
+          </Link>
+          <Link
+            to="/login"
+            className="text-green-500 hover:text-green-700 transition duration-300"
+          >
+            Login
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }
 
