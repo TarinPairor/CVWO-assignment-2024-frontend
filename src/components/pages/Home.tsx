@@ -89,10 +89,10 @@ function Home() {
           </div>
         </>
       ) : (
-        <div className="flex flex-row justify-center space-x-4">
+        <div className="flex flex-row justify-center space-x-4 border p-4 bg-gray-100">
           <Link
             to="/signup"
-            className="text-blue-500 hover:text-blue-700 transition duration-300"
+            className="text-blue-500 hover:text-blue-700 transition duration-300 hover:"
           >
             Sign Up
           </Link>
