@@ -4,6 +4,7 @@ import Logout from "../Logout";
 import Posts from "../PostCRUD/Posts";
 import { User } from "../../interfaces/User";
 import { MenuItem, TextField } from "@mui/material";
+import { ENDPOINT } from "../Variables";
 
 function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -15,13 +16,10 @@ function Home() {
     const fetchUser = async () => {
       try {
         //setCookie("Authorization", user, { path: "/" });
-        const response = await fetch(
-          "https://go-render-backend.onrender.com/validate",
-          {
-            method: "GET",
-            credentials: "include", // Include credentials to send cookies
-          }
-        );
+        const response = await fetch(`${ENDPOINT}/validate`, {
+          method: "GET",
+          credentials: "include", // Include credentials to send cookies
+        });
 
         if (response.ok) {
           const userData = await response.json();
@@ -39,9 +37,7 @@ function Home() {
 
     const fetchTags = async () => {
       try {
-        const response = await fetch(
-          "https://go-render-backend.onrender.com/tags"
-        );
+        const response = await fetch(`${ENDPOINT}/tags`);
         if (response.ok) {
           const tagsData = await response.json();
           setTags(tagsData.tags);
@@ -63,14 +59,15 @@ function Home() {
 
   return (
     <div>
-      {!user ? (
+      {user ? (
         <>
-          <div className="m-2">
+          <div className="m-4">
             <TextField
               id="outlined-select-tag"
               select
-              label="Select"
+              label="Tags"
               helperText="Tags list"
+              sx={{ width: "50%" }}
             >
               {tags?.map((tag: string) => (
                 <Link
@@ -86,8 +83,10 @@ function Home() {
             </TextField>
           </div>
           <Posts />
-          <p>Welcome {user ? user : "Guest"}</p>
-          <Logout />
+          <div className="flex flex-col">
+            <>Welcome {user ? user.Email : "Guest"}</>
+            <Logout />
+          </div>
         </>
       ) : (
         <div className="flex flex-row justify-center space-x-4">
